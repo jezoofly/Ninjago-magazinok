@@ -150,7 +150,9 @@ button {
 
 .card.owned {
   border: 3px solid #39d353;
+  
   box-shadow: 0 0 10px rgba(57,211,83,0.4);
+  
   transform: scale(1.02);
 }
 
@@ -163,3 +165,23 @@ button {
   cursor: pointer;
   color: white;
 }
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.tabs button {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.tabs button.active {
+  background: #39d353;
+  color: black;
+  }
