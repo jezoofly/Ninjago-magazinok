@@ -1,10 +1,28 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// 🔥 IDE JÖN A TE CONFIGOD
+const firebaseConfig = {
+  apiKey: "AIzaSyCpJlIVF-qgGOKK1hUCU1sOToP4UgGVv3s",
+  authDomain: "ninjago-magazin-cc4a9.firebaseapp.com",
+  projectId: "ninjago-magazin-cc4a9",
+  storageBucket: "ninjago-magazin-cc4a9.firebasestorage.app",
+  messagingSenderId: "523873001942",
+  appId: "1:523873001942:web:eca9202f7449020f400477"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const container = document.getElementById("container");
 const counter = document.getElementById("counter");
 
-// 📦 mentett állapot
-let owned = JSON.parse(localStorage.getItem("ownedMagazines") || "[]");
-
-// 🖼️ képek listája
 const imageList = [
   "legacy-2025-01.webp",
   "legacy-2025-02.webp",
@@ -28,35 +46,34 @@ const imageList = [
   "dr-2026-03.webp",
 ];
 
-// 💾 mentés
-function save() {
-  localStorage.setItem("ownedMagazines", JSON.stringify(owned));
-}
+// 🔥 Firestore doc
+const ref = doc(db, "magazines", "state");
 
-// ✔ megvan / nincs meg
-function toggle(id) {
-  if (owned.includes(id)) {
-    owned = owned.filter(x => x !== id);
-  } else {
-    owned.push(id);
+// alap állapot
+let state = { owned: [] };
+
+// realtime sync
+onSnapshot(ref, (snap) => {
+  if (snap.exists()) {
+    state = snap.data();
   }
-  save();
   render();
+});
+
+// toggle
+async function toggle(id) {
+  if (!state.owned) state.owned = [];
+
+  if (state.owned.includes(id)) {
+    state.owned = state.owned.filter(x => x !== id);
+  } else {
+    state.owned.push(id);
+  }
+
+  await setDoc(ref, state);
 }
 
-// 🧠 sorozat felismerés
-function getSeries(file) {
-  if (file.startsWith("legacy")) return "Legacy";
-  if (file.startsWith("dr")) return "Dragons Rising";
-  return "";
-}
-
-// 🧠 cím
-function getTitle(file) {
-  return file.replace(".webp", "").replace("-", "/");
-}
-
-// 🎨 render
+// render
 function render() {
   container.innerHTML = "";
 
@@ -67,10 +84,8 @@ function render() {
 
   imageList.forEach(file => {
     const id = file.replace(".webp", "");
-    const series = getSeries(file);
-    const title = getTitle(file);
-
-    const isOwned = owned.includes(id);
+    const series = file.startsWith("legacy") ? "Legacy" : "Dragons Rising";
+    const isOwned = state.owned?.includes(id);
 
     if (series === "Legacy") legacyTotal++;
     if (series === "Dragons Rising") drTotal++;
@@ -81,13 +96,13 @@ function render() {
     }
 
     container.innerHTML += `
-      <div class="card ${isOwned ? "owned-card" : ""}">
-        <img src="covers/${file}" alt="${title}">
-
+      <div class="card ${isOwned ? "owned" : ""}">
+        <img src="covers/${file}">
         <h3>${series}</h3>
-        <p>${title}</p>
+        <p>${id}</p>
 
-        <button onclick="toggle('${id}')">
+        <button onclick="toggle('${id}')"
+          style="background:${isOwned ? "#2ecc71" : "#555"}">
           ${isOwned ? "Megvan ✔" : "Nincs meg"}
         </button>
       </div>
@@ -95,9 +110,9 @@ function render() {
   });
 
   counter.innerHTML = `
-    🟡 Legacy: ${legacyOwned} / ${legacyTotal}<br>
-    🔵 Dragons Rising: ${drOwned} / ${drTotal}
+    🟡 Legacy: ${legacyOwned}/${legacyTotal}<br>
+    🔵 Dragons Rising: ${drOwned}/${drTotal}
   `;
 }
 
-render();
+window.toggle = toggle;
