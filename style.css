@@ -140,3 +140,26 @@ button {
   background: #2ecc71;
   color: black;
 }
+.card {
+  background: #1c1c1c;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.card.owned {
+  border: 3px solid #39d353;
+  box-shadow: 0 0 10px rgba(57,211,83,0.4);
+  transform: scale(1.02);
+}
+
+button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
