@@ -33,7 +33,7 @@ function save() {
   localStorage.setItem("ownedMagazines", JSON.stringify(owned));
 }
 
-// ✔ toggle
+// ✔ megvan / nincs meg
 function toggle(id) {
   if (owned.includes(id)) {
     owned = owned.filter(x => x !== id);
@@ -44,11 +44,11 @@ function toggle(id) {
   render();
 }
 
-// 🧠 kategória
+// 🧠 sorozat felismerés
 function getSeries(file) {
   if (file.startsWith("legacy")) return "Legacy";
   if (file.startsWith("dr")) return "Dragons Rising";
-  return "Unknown";
+  return "";
 }
 
 // 🧠 cím
@@ -62,7 +62,6 @@ function render() {
 
   let legacyOwned = 0;
   let drOwned = 0;
-
   let legacyTotal = 0;
   let drTotal = 0;
 
@@ -83,20 +82,14 @@ function render() {
 
     container.innerHTML += `
       <div class="card ${isOwned ? "owned-card" : ""}">
-        
-        <div class="img-wrapper">
-          <img src="covers/${file}" alt="${title}">
-          ${isOwned ? `<div class="checkmark">✔</div>` : ""}
-        </div>
+        <img src="covers/${file}" alt="${title}">
 
         <h3>${series}</h3>
         <p>${title}</p>
 
-        <button class="${isOwned ? "owned" : "not-owned"}"
-          onclick="toggle('${id}')">
+        <button onclick="toggle('${id}')">
           ${isOwned ? "Megvan ✔" : "Nincs meg"}
         </button>
-
       </div>
     `;
   });
