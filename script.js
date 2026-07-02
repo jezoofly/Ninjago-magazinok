@@ -4,9 +4,8 @@ const counter = document.getElementById("counter");
 // 📦 mentett állapot
 let owned = JSON.parse(localStorage.getItem("ownedMagazines") || "[]");
 
-// 🖼️ képek automatikus listája (GitHub mappából)
+// 🖼️ képek listája
 const imageList = [
-  // 🟡 LEGACY 2025-2026
   "legacy-2025-01.webp",
   "legacy-2025-02.webp",
   "legacy-2025-03.webp",
@@ -17,7 +16,6 @@ const imageList = [
   "legacy-2026-02.webp",
   "legacy-2026-03.webp",
 
-  // 🔵 DRAGONS RISING 2025-2026
   "dr-2025-01.webp",
   "dr-2025-02.webp",
   "dr-2025-03.webp",
@@ -46,14 +44,14 @@ function toggle(id) {
   render();
 }
 
-// 🧠 kategória felismerés
+// 🧠 kategória
 function getSeries(file) {
   if (file.startsWith("legacy")) return "Legacy";
   if (file.startsWith("dr")) return "Dragons Rising";
   return "Unknown";
 }
 
-// 🧠 cím generálás
+// 🧠 cím
 function getTitle(file) {
   return file.replace(".webp", "").replace("-", "/");
 }
@@ -85,7 +83,12 @@ function render() {
 
     container.innerHTML += `
       <div class="card ${isOwned ? "owned-card" : ""}">
-        <img src="covers/${file}" alt="${title}">
+        
+        <div class="img-wrapper">
+          <img src="covers/${file}" alt="${title}">
+          ${isOwned ? `<div class="checkmark">✔</div>` : ""}
+        </div>
+
         <h3>${series}</h3>
         <p>${title}</p>
 
@@ -93,6 +96,7 @@ function render() {
           onclick="toggle('${id}')">
           ${isOwned ? "Megvan ✔" : "Nincs meg"}
         </button>
+
       </div>
     `;
   });
