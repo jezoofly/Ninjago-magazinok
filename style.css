@@ -98,3 +98,45 @@ button {
   box-shadow: 0 0 12px rgba(57, 211, 83, 0.5);
   transform: scale(1.02);
 }
+.card {
+  background: #1c1c1c;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.25s ease;
+}
+
+/* ✔ MEGVAN ÁLLAPOT (EZ LESZ A FONTOS) */
+.card.owned-card {
+  background: linear-gradient(180deg, #1f3d2b, #145a32);
+  border: 3px solid #39d353;
+  box-shadow: 0 0 14px rgba(57, 211, 83, 0.35);
+  transform: scale(1.02);
+}
+
+/* kép is kapjon egy keretet */
+.card.owned-card img {
+  border: 2px solid #39d353;
+  border-radius: 8px;
+}
+
+/* gomb maradhat egyszerű */
+button {
+  margin-top: 8px;
+  padding: 6px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button {
+  background: #555;
+  color: white;
+}
+
+.card.owned-card button {
+  background: #2ecc71;
+  color: black;
+}
