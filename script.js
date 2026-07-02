@@ -1,28 +1,17 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getFirestore,
-  doc,
-  onSnapshot,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
 const firebaseConfig = {
   apiKey: "AIzaSyCpJlIVF-qgGOKK1hUCU1sOToP4UgGVv3s",
   authDomain: "ninjago-magazin-cc4a9.firebaseapp.com",
   projectId: "ninjago-magazin-cc4a9",
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 const container = document.getElementById("container");
 const counter = document.getElementById("counter");
 
-const ref = doc(db, "magazines", "state");
+const docRef = db.collection("magazines").doc("state");
 
-let state = { owned: [] };
-
-// ✔ STABIL LISTA (csak meglévő képek!)
 const items = [
   "legacy-2025-01.webp",
   "legacy-2025-02.webp",
@@ -46,12 +35,18 @@ const items = [
   "dr-2026-03.webp"
 ];
 
-onSnapshot(ref, (snap) => {
-  if (snap.exists()) state = snap.data();
+let state = { owned: [] };
+
+// realtime
+docRef.onSnapshot(doc => {
+  if (doc.exists) {
+    state = doc.data();
+  }
   render();
 });
 
-async function toggle(id) {
+// toggle
+function toggle(id) {
   if (!state.owned) state.owned = [];
 
   if (state.owned.includes(id)) {
@@ -60,22 +55,22 @@ async function toggle(id) {
     state.owned.push(id);
   }
 
-  await setDoc(ref, state);
+  docRef.set(state);
 }
 
 window.toggle = toggle;
 
-// ✔ egyszerű render (NINCS TAB MOST!)
+// render
 function render() {
   container.innerHTML = "";
 
-  let ownedCount = 0;
+  let count = 0;
 
   items.forEach(file => {
     const id = file.replace(".webp", "");
     const isOwned = state.owned?.includes(id);
 
-    if (isOwned) ownedCount++;
+    if (isOwned) count++;
 
     container.innerHTML += `
       <div class="card ${isOwned ? "owned" : ""}">
@@ -90,7 +85,7 @@ function render() {
     `;
   });
 
-  counter.innerHTML = `Megvan: ${ownedCount} / ${items.length}`;
+  counter.innerHTML = `Megvan: ${count} / ${items.length}`;
 }
 
 render();
