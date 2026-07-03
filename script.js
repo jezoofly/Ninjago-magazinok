@@ -13,6 +13,7 @@ const counter = document.getElementById("counter");
 
 const docRef = db.collection("magazines").doc("state");
 
+// 🧠 mindig legyen alap
 let state = { owned: [] };
 
 // 📚 adatok
@@ -43,13 +44,17 @@ const data = {
 
 let activeTab = "legacy";
 
-// ☁️ sync
+// ☁️ FIREBASE SYNC (FIXELT)
 docRef.onSnapshot(doc => {
-  if (doc.exists) state = doc.data();
+  if (doc.exists && doc.data().owned) {
+    state = doc.data();
+  } else {
+    state = { owned: [] };
+  }
   render();
 });
 
-// ✔ toggle
+// ✔ toggle (FIXELT)
 function toggle(id) {
   if (!state.owned) state.owned = [];
 
@@ -59,12 +64,13 @@ function toggle(id) {
     state.owned.push(id);
   }
 
-  docRef.set(state);
+  // FONTOS: csak owned-et mentünk
+  docRef.set({ owned: state.owned });
 }
 
 window.toggle = toggle;
 
-// 📑 tabok
+// 📑 TABOK
 function renderTabs() {
   let html = "";
 
@@ -87,19 +93,18 @@ function setTab(tab) {
 
 window.setTab = setTab;
 
-// 🎨 render
+// 🎨 RENDER
 function render() {
   renderTabs();
 
   const list = data[activeTab];
+  container.innerHTML = "";
 
   let ownedCount = 0;
 
-  container.innerHTML = "";
-
   list.forEach(file => {
     const id = file.replace(".webp", "");
-    const isOwned = state.owned?.includes(id);
+    const isOwned = state.owned.includes(id);
 
     if (isOwned) ownedCount++;
 
