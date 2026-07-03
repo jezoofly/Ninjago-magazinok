@@ -15,6 +15,7 @@ const docRef = db.collection("magazines").doc("state");
 
 let state = { owned: [] };
 
+// 📚 adatok
 const data = {
   legacy: [
     "legacy-2024-01.webp","legacy-2024-02.webp","legacy-2024-03.webp","legacy-2024-04.webp","legacy-2024-05.webp","legacy-2024-06.webp",
@@ -42,13 +43,13 @@ const data = {
 
 let activeTab = "legacy";
 
-// Firebase sync
+// ☁️ sync
 docRef.onSnapshot(doc => {
   if (doc.exists) state = doc.data();
   render();
 });
 
-// toggle
+// ✔ toggle
 function toggle(id) {
   if (!state.owned) state.owned = [];
 
@@ -63,14 +64,17 @@ function toggle(id) {
 
 window.toggle = toggle;
 
-// tabs
+// 📑 tabok
 function renderTabs() {
   let html = "";
 
   Object.keys(data).forEach(tab => {
-    html += `<button class="tab ${activeTab === tab ? "active" : ""}" onclick="setTab('${tab}')">
-      ${tab.toUpperCase()}
-    </button>`;
+    html += `
+      <button class="tab ${activeTab === tab ? "active" : ""}"
+        onclick="setTab('${tab}')">
+        ${tab.toUpperCase()}
+      </button>
+    `;
   });
 
   tabsDiv.innerHTML = html;
@@ -83,15 +87,15 @@ function setTab(tab) {
 
 window.setTab = setTab;
 
-// render
+// 🎨 render
 function render() {
   renderTabs();
 
   const list = data[activeTab];
 
-  container.innerHTML = `<div class="grid">`;
-
   let ownedCount = 0;
+
+  container.innerHTML = "";
 
   list.forEach(file => {
     const id = file.replace(".webp", "");
@@ -102,8 +106,11 @@ function render() {
     container.innerHTML += `
       <div class="card ${isOwned ? "owned" : ""}">
         <img src="covers/${file}">
+
         <p>${id.replace("-", " / ")}</p>
-        <button onclick="toggle('${id}')">
+
+        <button class="${isOwned ? "btn-owned" : "btn-not"}"
+          onclick="toggle('${id}')">
           ${isOwned ? "Megvan ✔" : "Nincs meg"}
         </button>
       </div>
