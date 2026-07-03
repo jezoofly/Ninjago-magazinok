@@ -12,8 +12,10 @@ h1 {
 
 #counter {
   color: #ccc;
+  margin-bottom: 10px;
 }
 
+/* 📑 TABS */
 #tabs {
   margin: 10px;
 }
@@ -26,6 +28,7 @@ h1 {
   cursor: pointer;
   background: #333;
   color: white;
+  font-weight: bold;
 }
 
 .tab.active {
@@ -33,50 +36,67 @@ h1 {
   color: black;
 }
 
+/* 📦 GRID (FIX 2 OSZLOP) */
 #container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* <<< EZ FIXÁLJA */
   gap: 10px;
   padding: 10px;
 }
 
+/* 🧱 KÁRTYA */
 .card {
   background: #222;
   border-radius: 10px;
   padding: 8px;
   transition: 0.2s;
+  border: 2px solid transparent;
 }
 
+/* 🟩 HA MEGVAN */
 .card.owned {
   background: #1f3d1f;
   border: 2px solid #39d353;
+  box-shadow: 0 0 10px rgba(57, 211, 83, 0.25);
 }
 
+/* 🖼 KÉP */
 .card img {
   width: 100%;
   border-radius: 6px;
   cursor: pointer;
 }
 
+/* 📄 SZÖVEG */
+.card p {
+  margin: 6px 0;
+  font-size: 13px;
+  color: #ddd;
+}
+
+/* 🔘 GOMB */
 .card button {
   width: 100%;
   padding: 6px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  font-weight: bold;
 }
 
-.btn-owned {
-  background: #39d353;
-  color: black;
-}
-
+/* ❌ nincs meg */
 .btn-not {
   background: #555;
   color: white;
 }
 
-/* LIGHTBOX */
+/* ✅ megvan */
+.btn-owned {
+  background: #39d353;
+  color: black;
+}
+
+/* 🔍 LIGHTBOX */
 #lightbox {
   position: fixed;
   inset: 0;
