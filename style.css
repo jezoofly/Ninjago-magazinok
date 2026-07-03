@@ -56,3 +56,23 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+.card.owned {
+  background: #1f3d1f;
+  border: 2px solid #39d353;
+  box-shadow: 0 0 10px rgba(57, 211, 83, 0.3);
+}
+
+.btn-owned {
+  background: #39d353;
+  color: black;
+}
+
+.btn-not {
+  background: #555;
+  color: white;
+}
+
+/* hogy a kép is “éljen” owned esetben */
+.card.owned img {
+  filter: brightness(1.05) contrast(1.1);
+}
