@@ -15,7 +15,7 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* 📑 TABS */
+/* 📑 TABOK */
 #tabs {
   margin: 10px;
 }
@@ -36,24 +36,28 @@ h1 {
   color: black;
 }
 
-/* 📦 GRID (FIX 2 OSZLOP) */
+/* 📦 GRID */
 #container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* <<< EZ FIXÁLJA */
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   padding: 10px;
 }
 
-/* 🧱 KÁRTYA */
+/* 🧱 KÁRTYA (FONTOS FIX) */
 .card {
   background: #222;
   border-radius: 10px;
   padding: 8px;
-  transition: 0.2s;
   border: 2px solid transparent;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: 0.2s;
 }
 
-/* 🟩 HA MEGVAN */
+/* 🟩 MEGVAN */
 .card.owned {
   background: #1f3d1f;
   border: 2px solid #39d353;
@@ -65,6 +69,7 @@ h1 {
   width: 100%;
   border-radius: 6px;
   cursor: pointer;
+  display: block;
 }
 
 /* 📄 SZÖVEG */
@@ -74,8 +79,9 @@ h1 {
   color: #ddd;
 }
 
-/* 🔘 GOMB */
+/* 🔘 GOMB (ALUL MARAD) */
 .card button {
+  margin-top: auto; /* 👈 EZ TARTJA LENT */
   width: 100%;
   padding: 6px;
   border: none;
@@ -121,6 +127,7 @@ h1 {
   border-radius: 10px;
 }
 
+/* 🔍 zoom gombok */
 #zoom-controls {
   margin-top: 10px;
 }
