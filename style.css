@@ -1,22 +1,42 @@
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #111;
   color: white;
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 
-#tabs {
+h1 {
+  margin: 15px 10px;
+}
+
+/* 📊 counter */
+#counter {
   margin: 10px;
+  font-size: 16px;
+  color: #ccc;
+}
+
+/* 📑 tabs */
+#tabs {
+  margin: 10px 0;
 }
 
 .tab {
   padding: 8px 12px;
   margin: 4px;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
   background: #333;
   color: white;
-  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.tab:hover {
+  background: #444;
 }
 
 .tab.active {
@@ -24,55 +44,82 @@ body {
   color: black;
 }
 
-.grid {
+/* 📦 grid */
+#container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
   padding: 10px;
 }
 
+/* 🧱 card */
 .card {
   background: #222;
-  padding: 8px;
   border-radius: 10px;
+  padding: 8px;
   transition: 0.2s;
+  border: 2px solid transparent;
 }
 
+/* 🟩 ha megvan */
 .card.owned {
   background: #1f3d1f;
   border: 2px solid #39d353;
+  box-shadow: 0 0 10px rgba(57, 211, 83, 0.25);
 }
 
+/* 🖼 kép */
 .card img {
   width: 100%;
   border-radius: 6px;
+  display: block;
 }
 
-button {
+/* 📄 szöveg */
+.card p {
+  margin: 6px 0;
+  font-size: 13px;
+  color: #ddd;
+}
+
+/* 🔘 gomb alap */
+.card button {
   width: 100%;
-  margin-top: 5px;
   padding: 6px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-}
-.card.owned {
-  background: #1f3d1f;
-  border: 2px solid #39d353;
-  box-shadow: 0 0 10px rgba(57, 211, 83, 0.3);
+  font-weight: bold;
+  transition: 0.2s;
 }
 
-.btn-owned {
-  background: #39d353;
-  color: black;
-}
-
+/* ❌ nincs meg */
 .btn-not {
   background: #555;
   color: white;
 }
 
-/* hogy a kép is “éljen” owned esetben */
-.card.owned img {
-  filter: brightness(1.05) contrast(1.1);
+.btn-not:hover {
+  background: #666;
+}
+
+/* ✅ megvan */
+.btn-owned {
+  background: #39d353;
+  color: black;
+}
+
+.btn-owned:hover {
+  filter: brightness(1.1);
+}
+
+/* 📱 mobil finomítás */
+@media (max-width: 500px) {
+  #container {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .card p {
+    font-size: 12px;
+  }
 }
