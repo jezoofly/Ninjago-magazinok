@@ -8,40 +8,43 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 const container = document.getElementById("container");
+const tabsDiv = document.getElementById("tabs");
 const counter = document.getElementById("counter");
 
 const docRef = db.collection("magazines").doc("state");
 
-const items = [
-  "legacy-2025-01.webp",
-  "legacy-2025-02.webp",
-  "legacy-2025-03.webp",
-  "legacy-2025-04.webp",
-  "legacy-2025-05.webp",
-  "legacy-2025-06.webp",
-  "legacy-2026-01.webp",
-  "legacy-2026-02.webp",
-  "legacy-2026-03.webp",
-
-  "dr-2025-01.webp",
-  "dr-2025-02.webp",
-  "dr-2025-03.webp",
-  "dr-2025-04.webp",
-  "dr-2025-05.webp",
-  "dr-2025-06.webp",
-  "dr-2025-07.webp",
-  "dr-2026-01.webp",
-  "dr-2026-02.webp",
-  "dr-2026-03.webp"
-];
-
 let state = { owned: [] };
 
-// realtime
+const data = {
+  legacy: [
+    "legacy-2024-01.webp","legacy-2024-02.webp","legacy-2024-03.webp","legacy-2024-04.webp","legacy-2024-05.webp","legacy-2024-06.webp",
+    "legacy-2025-01.webp","legacy-2025-02.webp","legacy-2025-03.webp","legacy-2025-04.webp","legacy-2025-05.webp","legacy-2025-06.webp",
+    "legacy-2026-01.webp","legacy-2026-02.webp","legacy-2026-03.webp"
+  ],
+
+  dr: [
+    "dr-2024-01.webp","dr-2024-02.webp","dr-2024-03.webp","dr-2024-04.webp","dr-2024-05.webp","dr-2024-06.webp",
+    "dr-2025-01.webp","dr-2025-02.webp","dr-2025-03.webp","dr-2025-04.webp","dr-2025-05.webp","dr-2025-06.webp","dr-2025-07.webp",
+    "dr-2026-01.webp","dr-2026-02.webp","dr-2026-03.webp"
+  ],
+
+  comic: [
+    "comic-2025-01.webp","comic-2025-02.webp","comic-2025-03.webp","comic-2025-04.webp",
+    "comic-2026-01.webp","comic-2026-02.webp"
+  ],
+
+  hero: [
+    "hero-2024-01.webp","hero-2024-02.webp","hero-2024-03.webp",
+    "hero-2025-01.webp","hero-2025-02.webp",
+    "hero-2026-01.webp"
+  ]
+};
+
+let activeTab = "legacy";
+
+// Firebase sync
 docRef.onSnapshot(doc => {
-  if (doc.exists) {
-    state = doc.data();
-  }
+  if (doc.exists) state = doc.data();
   render();
 });
 
@@ -60,32 +63,54 @@ function toggle(id) {
 
 window.toggle = toggle;
 
+// tabs
+function renderTabs() {
+  let html = "";
+
+  Object.keys(data).forEach(tab => {
+    html += `<button class="tab ${activeTab === tab ? "active" : ""}" onclick="setTab('${tab}')">
+      ${tab.toUpperCase()}
+    </button>`;
+  });
+
+  tabsDiv.innerHTML = html;
+}
+
+function setTab(tab) {
+  activeTab = tab;
+  render();
+}
+
+window.setTab = setTab;
+
 // render
 function render() {
-  container.innerHTML = "";
+  renderTabs();
 
-  let count = 0;
+  const list = data[activeTab];
 
-  items.forEach(file => {
+  container.innerHTML = `<div class="grid">`;
+
+  let ownedCount = 0;
+
+  list.forEach(file => {
     const id = file.replace(".webp", "");
     const isOwned = state.owned?.includes(id);
 
-    if (isOwned) count++;
+    if (isOwned) ownedCount++;
 
     container.innerHTML += `
       <div class="card ${isOwned ? "owned" : ""}">
         <img src="covers/${file}">
-        <p>${id}</p>
-
-        <button onclick="toggle('${id}')"
-          style="background:${isOwned ? "#2ecc71" : "#555"}">
+        <p>${id.replace("-", " / ")}</p>
+        <button onclick="toggle('${id}')">
           ${isOwned ? "Megvan ✔" : "Nincs meg"}
         </button>
       </div>
     `;
   });
 
-  counter.innerHTML = `Megvan: ${count} / ${items.length}`;
+  counter.innerHTML = `Megvan: ${ownedCount} / ${list.length}`;
 }
 
 render();
