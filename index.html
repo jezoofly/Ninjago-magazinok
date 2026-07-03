@@ -1,11 +1,38 @@
-<div id="lightbox" onclick="closeLightbox()">
-  <div id="lightbox-wrapper" onclick="event.stopPropagation()">
-    <img id="lightbox-img">
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ninjago Magazin Gyűjtemény</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-    <div id="zoom-controls">
-      <button onclick="zoomOut()">-</button>
-      <button onclick="resetZoom()">⟲</button>
-      <button onclick="zoomIn()">+</button>
+<body>
+
+  <h1>LEGO Ninjago Magazin Gyűjtemény</h1>
+  <p id="counter">Betöltés...</p>
+
+  <div id="tabs"></div>
+  <div id="container"></div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <div id="lightbox-wrapper" onclick="event.stopPropagation()">
+      <img id="lightbox-img">
+
+      <div id="zoom-controls">
+        <button onclick="zoomOut()">-</button>
+        <button onclick="resetZoom()">⟲</button>
+        <button onclick="zoomIn()">+</button>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
