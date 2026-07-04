@@ -21,7 +21,7 @@ const data = {
   legacy: [
     "legacy-2024-01.webp","legacy-2024-02.webp","legacy-2024-03.webp","legacy-2024-04.webp","legacy-2024-05.webp","legacy-2024-06.webp",
     "legacy-2025-01.webp","legacy-2025-02.webp","legacy-2025-03.webp","legacy-2025-04.webp","legacy-2025-05.webp","legacy-2025-06.webp",
-    "legacy-2026-01.webp","legacy-2026-02.webp","legacy-2026-03.webp"
+    "legacy-2026-01.webp","legacy-2026-02.webp","legacy-2026-03.webp","legacy-2026-04.webp"
   ],
   dr: [
     "dr-2024-01.webp","dr-2024-02.webp","dr-2024-03.webp","dr-2024-05.webp","dr-2024-06.webp","dr-2024-07.webp",
