@@ -35,7 +35,7 @@ const data = {
   hero: [
     "hero-2024-01.webp","hero-2024-02.webp","hero-2024-03.webp",
     "hero-2025-01.webp","hero-2025-02.webp",
-    "hero-2026-01.webp", "hero-2026-02.webp"
+    "hero-2026-01.webp","hero-2026-02.webp"
   ]
 };
 
